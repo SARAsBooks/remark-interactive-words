@@ -1,142 +1,130 @@
-# ![remark][logo]
+# remark-interactive-words
+  
+![remark][logo]
 
-[![Build][build-badge]][build]
-[![Coverage][coverage-badge]][coverage]
-[![Downloads][downloads-badge]][downloads]
-[![Size][size-badge]][size]
-[![Sponsors][sponsors-badge]][collective]
-[![Backers][backers-badge]][collective]
-[![Chat][chat-badge]][chat]
-
-**remark-interactive-words** is a plugin for remark, a tool that transforms markdown with plugins. This plugin is designed to transform specified words into interactive, clickable links that point to an API with a #slug. It's built to facilitate Engaged Aided Reading (EAR), thereby improving literacy development by enhancing word-specific fluency and comprehension.
-
-## Feature highlights
-
-*   [x] **Easy Integration** - Seamlessly integrate with existing remark projects.
-*   [x] **Interactivity** - Enhances engagement with interactive word links.
-*   [x] **Educational Tool** - Assists in literacy development in an engaging manner.
-*   [x] **ASTs** - Manipulates and modifies abstract syntax trees with ease.
+`remark-interactive-words` is a plugin for `remark`. It's built to facilitate Aided Reading (AR) on digital devices.
 
 ## Intro
 
-Like remark, remark-interactive-words also works with markdown as structured data, specifically abstract syntax trees (ASTs). This plugin can inspect and modify these trees to provide the interactive functionality. You can integrate it with your existing remark plugins to achieve greater functionality.
+Designed to transform markdown by replacing [words](#) with interactive, clickable links with a `#slug` for programatic use, `remark-interactive-words` is developed by [Russ Fugal](https://sara.ai/about.html) for [SARAs Books LLC](https://sara.ai) to support Aided Reading (AR) automation. This plugin integrates seamlessly with the remarkable ecosystem.
 
-*   to learn markdown, see this [cheatsheet and tutorial][cheat]
-*   for more about us, see [`unifiedjs.com`][site]
-*   for updates, see [Twitter][]
-*   for questions, see [support][]
-*   to help, see [contribute][] or [sponsor][] below
+* to learn markdown, see this [cheatsheet and tutorial][cheat]
+* for more about the `remark` ecosystem, see [`unifiedjs.com`][site]
+* to help, see [contribute][] or [sponsor][] below
 
 ## Contents
 
 *   [What is this?](#what-is-this)
 *   [When should I use this?](#when-should-i-use-this)
-*   [Installation](#installation)
-*   [Usage](#usage)
-*   [Example](#example)
-*   [Compatibility](#compatibility)
-*   [Security](#security)
+*   [API](#api)
+*   [Examples](#examples)
+    *   [Example: turning markdown into HTML](#example-turning-markdown-into-html)
+    *   [Example: support for GFM and frontmatter](#example-support-for-gfm-and-frontmatter)
+    *   [Example: checking markdown](#example-checking-markdown)
+    *   [Example: checking and formatting markdown on the CLI](#example-checking-and-formatting-markdown-on-the-cli)
+*   [Syntax](#syntax)
+*   [Syntax tree](#syntax-tree)
+*   [Types](#types)
 *   [Contribute](#contribute)
 *   [Sponsor](#sponsor)
 *   [License](#license)
 
 ## What is this?
 
-With this plugin, you can turn regular words in your markdown into clickable links that point to an API with a #slug:
+[unified] is a project that transforms content with abstract syntax trees (ASTs). [remark] adds support for markdown to unified. mdast is the markdown AST that remark uses. This is a remark plugin that transforms mdast.
 
-```markdown
-The quick brown fox jumps over the lazy dog.
-```
-
-…into the following HTML with interactive words:
-
-```html
-<p>The <a href="api_url/#quick">quick</a> brown <a href="api_url/#fox">fox</a> jumps over the lazy <a href="api_url/#dog">dog</a>.</p>
-```
-
-<details><summary>Show example code</summary>
-
-```js
-import {unified} from 'unified'
-import remarkParse from 'remark-parse'
-import remarkInteractiveWords from 'remark-interactive-words'
-import remarkHtml from 'remark-html'
-
-const file = await unified()
-    .use(remarkParse)
-    .use(remarkInteractiveWords, {apiUrl: 'your_api_url'})
-    .use(remarkHtml)
-    .process('The quick brown fox jumps over the lazy dog.')
-
-console.log(String(file)) // => '<p>The <a href="your_api_url/#quick">quick</a> brown <a href="your_api_url/#fox">fox</a> jumps over the lazy <a href="your_api_url/#dog">dog</a>.</p>'
-```
-
-</details>
+`remark-interactive-words` leverages abstract syntax trees (ASTs), inspecting and modifying these trees to create its interactive functionality. This plugin works with markdown as structured data, similar to how the parent tool, `remark`, operates. You can easily integrate it with your existing remark plugins to achieve a higher level of interactivity and functionality in your markdown documents.
 
 ## When should I use this?
 
-Use this plugin when you want to enhance the readability of your content and promote interactive reading. It's particularly useful in educational and learning contexts where you want readers to learn
+To install the `remark-interactive-words` plugin, run the following command in your terminal:
 
- more about specific words.
-
-## Installation
-
-This package is ESM only. In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm](https://docs.npmjs.com/cli/install):
-
-```sh
+```shell
 npm install remark-interactive-words
 ```
 
-## Usage
+## API
 
-Say we have the following file, `example.md`:
+After installation, you can require and use `remark-interactive-words` as follows:
 
-```markdown
-The quick brown fox jumps over the lazy dog.
+```javascript
+var remark = require('remark');
+var interactiveWords = require('remark-interactive-words');
+
+remark()
+  .use(interactiveWords)
+  .process(yourMarkdownString, function(err, file) {
+    if (err) throw err;
+    console.log(String(file));
+  });
 ```
 
-And our script, `example.js`, looks as follows:
+## Examples
 
-```js
-import {unified} from 'unified'
-import remarkParse from 'remark-parse'
-import remarkInteractiveWords from 'remark-interactive-words'
-import remarkHtml from 'remark-html'
-import {read} from 'to-vfile'
+You can customize the behavior of `remark-interactive-words` by passing an options object when calling `remark().use(interactiveWords, options)`. The options are:
 
-main()
+## Syntax
 
-async function main() {
-  const file = await unified()
-    .use(remarkParse)
-    .use(remarkInteractiveWords, {apiUrl: 'your_api_url'})
-    .use(remarkHtml)
-    .process(await read('example.md'))
+## Syntax tree
 
-  console.log(String(file))
-}
-```
-
-Now, running `node example` yields:
-
-```html
-<p>The <a href="your_api_url/#quick">quick</a> brown <a href="your_api_url/#fox">fox</a> jumps over the lazy <a href="your_api_url/#dog">dog</a>.</p>
-```
-
-## Compatibility
-
-This project is compatible with all maintained versions of Node.js. As of now, that is Node.js 12.20+, 14.14+, and 16.0+. It may work with older versions, but this is not guaranteed.
+## Types
 
 ## Contribute
 
-See [`contributing.md`][contributing] in [`remarkjs/.github`][health] for ways to get started. See [`support.md`][support] for ways to get help. Join us in [Discussions][chat] to chat with the community and contributors.
-
-This project has a [code of conduct][coc]. By interacting with this repository, organization, or community you agree to abide by its terms.
+We welcome contributions to `remark-interactive-words`. Please see the [contributing guidelines](CONTRIBUTING.md) for more information.
 
 ## Sponsor
 
-Support this effort and give back by sponsoring on [OpenCollective][collective]!
+`remark-interactive-words` is an open source project that is supported by the community. If you find it useful, please consider supporting us via [GitHub Sponsors]().
 
 ## License
 
 [MIT](license) © [Russ Fugal](https://sara.ai/about.html)
+
+<!-- Definitions -->
+
+[logo]: https://raw.githubusercontent.com/remarkjs/remark/1f338e72/logo.svg?sanitize=true
+
+[site]: https://unifiedjs.com
+
+[cheat]: https://commonmark.org/help/
+
+[contributing]: https://github.com/remarkjs/.github/blob/main/contributing.md
+
+[coc]: https://github.com/remarkjs/.github/blob/main/code-of-conduct.md
+
+[typescript]: https://www.typescriptlang.org
+
+[topic]: https://github.com/topics/remark-plugin
+
+[popular]: https://www.npmtrends.com/remark-parse-vs-marked-vs-micromark-vs-markdown-it
+
+[types-mdast]: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/mdast
+
+[unified]: https://github.com/unifiedjs/unified
+
+[remark]: https://github.com/remarkjs/remark
+
+[remark-toc]: https://github.com/remarkjs/remark-toc
+
+[remark-rehype]: https://github.com/remarkjs/remark-rehype
+
+[remark-html]: https://github.com/remarkjs/remark-html
+
+[rehype]: https://github.com/rehypejs/rehype
+
+[mdast]: https://github.com/syntax-tree/mdast
+
+[remark-parse]: packages/remark-parse/
+
+[remark-stringify]: packages/remark-stringify/
+
+[syntax]: #syntax
+
+[syntax-tree]: #syntax-tree
+
+[plugins]: #plugins
+
+[contribute]: #contribute
+
+[sponsor]: #sponsor
