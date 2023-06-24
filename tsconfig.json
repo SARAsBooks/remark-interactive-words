@@ -1,15 +1,13 @@
 {
     "compilerOptions": {
-      "checkJs": true,
-      "declaration": true,
-      "emitDeclarationOnly": true,
-      "exactOptionalPropertyTypes": true,
-      "forceConsistentCasingInFileNames": true,
-      "lib": ["es2021"],
-      "module": "node16",
-      "newLine": "lf",
-      "skipLibCheck": true,
-      "strict": true,
-      "target": "es2021"
-    }
-  }
+        "target": "ES2022", 
+        "module": "ESNext",
+        "moduleResolution": "NodeNext",
+        "checkJs": true,
+        "strict": true,
+        "esModuleInterop": true,
+        "outDir": "dist" 
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+}
