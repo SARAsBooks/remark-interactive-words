@@ -1,6 +1,6 @@
 ## [Intro][intro]
     
-[Designed][designed] [to][to] [transform][transform] [markdown][markdown] [by][by] [replacing][replacing] [words](#slug) [with][with] [interactive][interactive], [clickable][clickable] [links][links] [with][with] a \`#slug\` [for][for] [programatic][programatic] [use][use], \`remark-interactive-words\` [is][is] [developed][developed] [by][by] [Russ Fugal](https://sara.ai/about.html) [for][for] [SARAs Books LLC](https://sara.ai) [to][to] [support][support] [Aided][aided] [Reading][reading] ([AR][ar]) [automation][automation]. [This][this] [plugin][plugin] [integrates][integrates] [seamlessly][seamlessly] [with][with] the [remark][remark] [ecosystem][ecosystem].
+[Designed][designed] [to][to] [transform][transform] [markdown][markdown] [by][by] [replacing][replacing] [words](#slug) [with][with] [interactive][interactive], [clickable][clickable] [links][links] [with][with] a `#slug` [for][for] [programatic][programatic] [use][use], `remark-interactive-words` [is][is] [developed][developed] [by][by] [Russ Fugal](https://sara.ai/about.html) [for][for] [SARAs Books LLC](https://sara.ai) [to][to] [support][support] [Aided][aided] [Reading][reading] ([AR][ar]) [automation][automation]. [This][this] [plugin][plugin] [integrates][integrates] [seamlessly][seamlessly] [with][with] the [remark][remark] [ecosystem][ecosystem].
 
 [intro]: #intro "{ url: #intro, documentCount: 1 }"
 
