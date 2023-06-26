@@ -1,5 +1,5 @@
 import { visitParents } from 'unist-util-visit-parents';
-import { getTaggedMatches, getWordSlug } from './helper.js';
+import { getTaggedMatches } from './helper.js';
 const remarkInteractiveWords = (options) => {
     const { transformTo, exceptions, helper } = options;
     const helperFunction = helper || getTaggedMatches;
@@ -23,9 +23,8 @@ const remarkInteractiveWords = (options) => {
         const parent = ancestors[ancestors.length - 1];
         const segments = helperFunction({ input: node.value, exceptions: exceptionsList });
         const newChildren = (segments.map((segment) => {
-            if (segment.isMatch) {
-                const wordSlug = getWordSlug(segment.text);
-                return createNewNode(segment.text, wordSlug, transformTo);
+            if (segment.transform && segment.wordSlug) {
+                return createNewNode(segment.text, segment.wordSlug, transformTo);
             }
             return { type: 'text', value: segment.text };
         }));
