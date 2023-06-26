@@ -1,8 +1,8 @@
 {
   "name": "remark-interactive-words",
   "version": "1.0.0",
-  "description": "A Remark plugin to transform words into interactive, clickable links with a #slug. Designed for the Engaged Aided Reading (EAR) context to aid in literacy development by enhancing word-specific fluency and comprehension.",
-  "exports": "./src/index.ts",
+  "description": "A Remark plugin to transform words into interactive, clickable links with a #slug. It's built to facilitate Aided Reading (AR) on digital devices. You can easily integrate it with your existing remark plugins to achieve a word-wise interactivity and functionality in your markdown documents.",
+  "exports": "./dist/index.js",
   "type": "module",
   "engines": {
     "node": ">=16"

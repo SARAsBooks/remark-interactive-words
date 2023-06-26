@@ -6,7 +6,7 @@
 
 ## Intro
 
-Designed to transform markdown by replacing [words](#slug) with interactive, clickable links with a `#slug` for programatic use, `remark-interactive-words` is developed by [Russ Fugal](https://sara.ai/about.html) for [SARAs Books LLC](https://sara.ai) to support Aided Reading (AR) automation. This plugin integrates seamlessly with the remarkable ecosystem.
+Designed to transform markdown by replacing [words](#slug) with interactive, clickable links with a `#slug` for programatic use, `remark-interactive-words` is developed by [Russ Fugal](https://sara.ai/about.html) for [SARAs Books LLC](https://sara.ai) to support Aided Reading (AR) automation. This plugin integrates seamlessly with the remark ecosystem.
 
 * to learn markdown, see this [cheatsheet and tutorial][cheat]
 * for more about the `remark` ecosystem, see [`unifiedjs.com`][site]
@@ -49,7 +49,7 @@ npm install remark-interactive-words
 
 The default export is `remarkInteractiveWords`.
 
-### `remark().use(remarkToc, options)`
+### `remark().use(remarkInteractiveWords, options)`
 
 Generate markdown with linked words.
 Looks for all Text Nodes and transforms all but decendents of `excludingNodes`.
@@ -66,7 +66,7 @@ const excludingNodes = [
 
 ### `slug`
 
-Matches words with `wordRegex` and transforms them to `transformTo` Nodes with a `#slug` for programatic use.
+`remarkInteractiveWords` matches words with `wordRegex` and transforms them to `transformTo` Nodes with a `#slug` for programatic use.
 
 ```ts
 const wordRegex = /([a-z]+['’][a-z]+)|[a-z]{2,}/gi;
@@ -135,7 +135,7 @@ We welcome contributions to `remark-interactive-words`. Please see the [contribu
 
 ## Sponsor
 
-`remark-interactive-words` is an open source project that is supported by the community. If you find it useful, please consider supporting us via [GitHub Sponsors]().
+`remark-interactive-words` is an open source project that is supported by the community. If you find it useful, please consider supporting us via [GitHub Sponsors].
 
 ## License
 
@@ -151,6 +151,8 @@ We welcome contributions to `remark-interactive-words`. Please see the [contribu
 
 [unified]: https://github.com/unifiedjs/unified
 
+[unist]: https://github.com/syntax-tree/unist
+
 [remark]: https://github.com/remarkjs/remark
 
 [mdast]: https://github.com/syntax-tree/mdast
@@ -158,3 +160,7 @@ We welcome contributions to `remark-interactive-words`. Please see the [contribu
 [contribute]: #contribute
 
 [sponsor]: #sponsor
+
+[contributing guidelines]: contributing.md
+
+[github sponsors]: 
