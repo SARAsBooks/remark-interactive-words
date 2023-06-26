@@ -6,62 +6,122 @@
 
 ## Intro
 
-Designed to transform markdown by replacing [words](#) with interactive, clickable links with a `#slug` for programatic use, `remark-interactive-words` is developed by [Russ Fugal](https://sara.ai/about.html) for [SARAs Books LLC](https://sara.ai) to support Aided Reading (AR) automation. This plugin integrates seamlessly with the remarkable ecosystem.
+Designed to transform markdown by replacing [words](#slug) with interactive, clickable links with a `#slug` for programatic use, `remark-interactive-words` is developed by [Russ Fugal](https://sara.ai/about.html) for [SARAs Books LLC](https://sara.ai) to support Aided Reading (AR) automation. This plugin integrates seamlessly with the remarkable ecosystem.
 
 * to learn markdown, see this [cheatsheet and tutorial][cheat]
 * for more about the `remark` ecosystem, see [`unifiedjs.com`][site]
-* to help, see [contribute][] or [sponsor][] below
+* to help, see [contribute] or [sponsor] below
 
 ## Contents
 
-*   [What is this?](#what-is-this)
-*   [When should I use this?](#when-should-i-use-this)
-*   [API](#api)
-*   [Examples](#examples)
-    *   [Example: turning markdown into HTML](#example-turning-markdown-into-html)
-    *   [Example: support for GFM and frontmatter](#example-support-for-gfm-and-frontmatter)
-    *   [Example: checking markdown](#example-checking-markdown)
-    *   [Example: checking and formatting markdown on the CLI](#example-checking-and-formatting-markdown-on-the-cli)
-*   [Syntax](#syntax)
-*   [Syntax tree](#syntax-tree)
-*   [Types](#types)
-*   [Contribute](#contribute)
-*   [Sponsor](#sponsor)
-*   [License](#license)
+* [What is this?](#what-is-this)
+* [When should I use this?](#when-should-i-use-this)
+* [API](#api)
+  * [`remark().use(remarkToc, options)`](#remarkuseremarktoc-options)
+  * [`slug`](#slug)
+  * [`interface InteractiveWordsOptions`](#interface-interactivewordsoptions)
+* [Examples](#examples)
+  * [Example: 'This is a test.'](#example-this-is-a-test)
+* [Syntax](#syntax)
+* [Syntax tree](#syntax-tree)
+* [Types](#types)
+* [Contribute](#contribute)
+* [Sponsor](#sponsor)
+* [License](#license)
 
 ## What is this?
 
-[unified] is a project that transforms content with abstract syntax trees (ASTs). [remark] adds support for markdown to unified. mdast is the markdown AST that remark uses. This is a remark plugin that transforms mdast.
+[unified] is a project that transforms content with abstract syntax trees (ASTs). [remark] adds support for markdown to unified. [mdast] is a specification for representing markdown in a syntax tree. It implements [unist]. It can represent several flavours of markdown, such as CommonMark and GitHub Flavored Markdown.
 
-`remark-interactive-words` leverages abstract syntax trees (ASTs), inspecting and modifying these trees to create its interactive functionality. This plugin works with markdown as structured data, similar to how the parent tool, `remark`, operates. You can easily integrate it with your existing remark plugins to achieve a higher level of interactivity and functionality in your markdown documents.
+`remark-interactive-words` leverages `mdast`, inspecting and modifying the AST to create its interactive functionality. This plugin works with markdown as structured data.
 
 ## When should I use this?
 
-To install the `remark-interactive-words` plugin, run the following command in your terminal:
-
-```shell
-npm install remark-interactive-words
-```
+`remark-interactive-words` is a plugin for `remark`. It's built to facilitate Aided Reading (AR) on digital devices. You can easily integrate it with your existing remark plugins to achieve a word-wise interactivity and functionality in your markdown documents.
 
 ## API
 
-After installation, you can require and use `remark-interactive-words` as follows:
+To install the `remark-interactive-words` plugin, run the following command in your terminal:
 
-```javascript
-var remark = require('remark');
-var interactiveWords = require('remark-interactive-words');
+```bash
+npm install remark-interactive-words
+```
 
-remark()
-  .use(interactiveWords)
-  .process(yourMarkdownString, function(err, file) {
-    if (err) throw err;
-    console.log(String(file));
-  });
+The default export is `remarkInteractiveWords`.
+
+### `remark().use(remarkToc, options)`
+
+Generate markdown with linked words.
+Looks for all Text Nodes and transforms all but decendents of `excludingNodes`.
+
+```ts
+const excludingNodes = [
+    'code',
+    'inlineCode',
+    'link',
+    'linkReference',
+    'html'
+]
+```
+
+### `slug`
+
+Matches words with `wordRegex` and transforms them to `transformTo` Nodes with a `#slug` for programatic use.
+
+```ts
+const wordRegex = /([a-z]+['’][a-z]+)|[a-z]{2,}/gi;
+
+function getWordSlug(word: string): string {
+    return word.toLowerCase().replace("’", "'");
+}
+```
+
+### `interface InteractiveWordsOptions`
+
+Via the options object, you can customize the behavior of `remark-interactive-words`. Specific words can be excluded from transformation by passing an array of words to `exceptions`. You can also customize the transformation by passing a `helper` function. The helper function is called with a HelperInput object and should return an array of `HelperResult` objects.
+
+```ts
+interface InteractiveWordsOptions {
+  transformTo: 'link' | 'linkReference'
+  exceptions?: string[] // array of words to exclude from transformation
+  helper?: (input: HelperInput) => HelperResult[]
+}
+
+interface HelperInput {
+    input: string;
+    exceptions?: string[];
+}
+
+interface HelperResult {
+    text: string;
+    transform: boolean;
+    wordSlug?: string;
+}
 ```
 
 ## Examples
 
-You can customize the behavior of `remark-interactive-words` by passing an options object when calling `remark().use(interactiveWords, options)`. The options are:
+### Example: 'This is a test.'
+
+After installation, you can require and use `remark-interactive-words` as follows:
+
+```ts
+import { remark } from 'remark';
+import remarkInteractiveWords from 'remark-interactive-words';
+import { InteractiveWordsOptions } from 'remark-interactive-words';
+
+const options: InteractiveWordsOptions = {
+    transformTo: 'link'
+};
+
+const input = 'This is a test.';
+const expectedOutput = '[This](#this) [is](#is) a [test](#test).';
+
+const processor = remark().use(remarkInteractiveWords);
+const output = processor.processSync(input);
+
+expect(String(output)).toEqual(expectedOutput);
+```
 
 ## Syntax
 
@@ -71,7 +131,7 @@ You can customize the behavior of `remark-interactive-words` by passing an optio
 
 ## Contribute
 
-We welcome contributions to `remark-interactive-words`. Please see the [contributing guidelines](CONTRIBUTING.md) for more information.
+We welcome contributions to `remark-interactive-words`. Please see the [contributing guidelines] for more information.
 
 ## Sponsor
 
@@ -89,41 +149,11 @@ We welcome contributions to `remark-interactive-words`. Please see the [contribu
 
 [cheat]: https://commonmark.org/help/
 
-[contributing]: https://github.com/remarkjs/.github/blob/main/contributing.md
-
-[coc]: https://github.com/remarkjs/.github/blob/main/code-of-conduct.md
-
-[typescript]: https://www.typescriptlang.org
-
-[topic]: https://github.com/topics/remark-plugin
-
-[popular]: https://www.npmtrends.com/remark-parse-vs-marked-vs-micromark-vs-markdown-it
-
-[types-mdast]: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/mdast
-
 [unified]: https://github.com/unifiedjs/unified
 
 [remark]: https://github.com/remarkjs/remark
 
-[remark-toc]: https://github.com/remarkjs/remark-toc
-
-[remark-rehype]: https://github.com/remarkjs/remark-rehype
-
-[remark-html]: https://github.com/remarkjs/remark-html
-
-[rehype]: https://github.com/rehypejs/rehype
-
 [mdast]: https://github.com/syntax-tree/mdast
-
-[remark-parse]: packages/remark-parse/
-
-[remark-stringify]: packages/remark-stringify/
-
-[syntax]: #syntax
-
-[syntax-tree]: #syntax-tree
-
-[plugins]: #plugins
 
 [contribute]: #contribute
 
