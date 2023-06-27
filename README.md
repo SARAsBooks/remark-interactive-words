@@ -139,7 +139,7 @@ We welcome contributions to `remark-interactive-words`. Please see the [contribu
 
 ## License
 
-[MIT](license) © [Russ Fugal]
+[MIT](LICENSE) © [Russ Fugal]
 
 <!-- Definitions -->
 
@@ -164,7 +164,5 @@ We welcome contributions to `remark-interactive-words`. Please see the [contribu
 [sponsor]: #sponsor
 
 [contributing guidelines]: contributing.md
-
-[license]: https://github.com/SARAsBooks/remark-interactive-words/blob/main/LICENSE
 
 [github sponsors]: https://github.com/sponsors/SARAsBooks/
