@@ -1,15 +1,15 @@
 # remark-interactive-words
   
-![remark][logo]
-
 `remark-interactive-words` is a plugin for `remark`. It's built to facilitate Aided Reading (AR) on digital devices.
 
 ## Intro
 
-Designed to transform markdown by replacing [words](#slug) with interactive, clickable links with a `#slug` for programatic use, `remark-interactive-words` is developed by [Russ Fugal](https://sara.ai/about.html) for [SARAs Books LLC](https://sara.ai) to support Aided Reading (AR) automation. This plugin integrates seamlessly with the remark ecosystem.
+![remark][logo]
+
+Designed to transform markdown by replacing [words](#slug) with interactive, clickable links with a `#slug` for programmatic use, `remark-interactive-words` is developed by [Russ Fugal] for [SARAs Books LLC](https://sara.ai) to support Aided Reading (AR) automation. This plugin integrates seamlessly with the remark ecosystem.
 
 * to learn markdown, see this [cheatsheet and tutorial][cheat]
-* for more about the `remark` ecosystem, see [`unifiedjs.com`][site]
+* for more about the [`remark`][remark] ecosystem, see [`unifiedjs.com`][unifiedjs]
 * to help, see [contribute] or [sponsor] below
 
 ## Contents
@@ -31,13 +31,13 @@ Designed to transform markdown by replacing [words](#slug) with interactive, cli
 
 ## What is this?
 
-[unified] is a project that transforms content with abstract syntax trees (ASTs). [remark] adds support for markdown to unified. [mdast] is a specification for representing markdown in a syntax tree. It implements [unist]. It can represent several flavours of markdown, such as CommonMark and GitHub Flavored Markdown.
+[`unified`][unified] is a project that transforms content with abstract syntax trees (ASTs). [`remark`][remark] adds support for markdown to unified. [`mdast`][mdast] is a specification for representing markdown in a syntax tree. It implements [`unist`][unist]. It can represent several flavors of markdown, such as CommonMark and GitHub Flavored Markdown.
 
 `remark-interactive-words` leverages `mdast`, inspecting and modifying the AST to create its interactive functionality. This plugin works with markdown as structured data.
 
 ## When should I use this?
 
-`remark-interactive-words` is a plugin for `remark`. It's built to facilitate Aided Reading (AR) on digital devices. You can easily integrate it with your existing remark plugins to achieve a word-wise interactivity and functionality in your markdown documents.
+`remark-interactive-words` is a plugin for `remark`. It's built to facilitate Aided Reading (AR) on digital devices. You can easily integrate it with your existing remark plugins to achieve word-wise interactivity and functionality in your markdown documents.
 
 ## API
 
@@ -52,7 +52,7 @@ The default export is `remarkInteractiveWords`.
 ### `remark().use(remarkInteractiveWords, options)`
 
 Generate markdown with linked words.
-Looks for all Text Nodes and transforms all but decendents of `excludingNodes`.
+Looks for all Text Nodes and transforms all but descendants of `excludingNodes`.
 
 ```ts
 const excludingNodes = [
@@ -135,17 +135,19 @@ We welcome contributions to `remark-interactive-words`. Please see the [contribu
 
 ## Sponsor
 
-`remark-interactive-words` is an open source project that is supported by the community. If you find it useful, please consider supporting us via [GitHub Sponsors].
+`remark-interactive-words` is an open-source project that is supported by the community. If you find it useful, please consider supporting us via [GitHub Sponsors].
 
 ## License
 
-[MIT](license) © [Russ Fugal](https://sara.ai/about.html)
+[MIT](license) © [Russ Fugal]
 
 <!-- Definitions -->
 
+[Russ Fugal]: https://sara.ai/about.html
+
 [logo]: https://raw.githubusercontent.com/remarkjs/remark/1f338e72/logo.svg?sanitize=true
 
-[site]: https://unifiedjs.com
+[unifiedjs]: https://unifiedjs.com
 
 [cheat]: https://commonmark.org/help/
 
@@ -163,4 +165,4 @@ We welcome contributions to `remark-interactive-words`. Please see the [contribu
 
 [contributing guidelines]: contributing.md
 
-[github sponsors]: 
+[github sponsors]: https://github.com/sponsors/SARAsBooks/dashboard/profile
