@@ -4,9 +4,9 @@
 
 ## Intro
 
-![remark][logo]
-
 Designed to transform markdown by replacing [words](#slug) with interactive, clickable links with a `#slug` for programmatic use, `remark-interactive-words` is developed by [Russ Fugal] for [SARAs Books LLC](https://sara.ai) to support Aided Reading (AR) automation. This plugin integrates seamlessly with the remark ecosystem.
+
+![remark][logo]
 
 * to learn markdown, see this [cheatsheet and tutorial][cheat]
 * for more about the [`remark`][remark] ecosystem, see [`unifiedjs.com`][unifiedjs]
