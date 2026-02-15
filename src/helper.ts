@@ -1,4 +1,4 @@
-import wordRegex from './word-regex.js';
+import createWordRegex from './word-regex.js';
 
 export interface HelperInput {
     input: string;
@@ -22,6 +22,7 @@ export function getTaggedMatches(
     const results: HelperResult[] = [];
     let match: RegExpExecArray | null;
 
+    const wordRegex = createWordRegex();
     while ((match = wordRegex.exec(input)) !== null) {
         const isException = exceptions ? exceptions.includes(match[0].toLowerCase()) : false;
 
