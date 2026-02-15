@@ -20,13 +20,25 @@ const remarkInteractiveWords = (options: InteractiveWordsOptions) => {
   const helperFunction = helper || getTaggedMatches;
   const exceptionsList = exceptions || ['a', 'an', 'the'];
 
-  const referenceCount: {
-    [key: string]: number
-  } = {};
-
   const transform = async (tree: Node, file: VFile) => {
+    const referenceCount: {
+      [key: string]: number
+    } = {};
+
+    const visitor = (node: Text, index: number, parent: Parent) => {
+      const segments = helperFunction({ input: node.value, exceptions: exceptionsList });
+      const newChildren = (segments.map((segment) => {
+        if (segment.transform && segment.wordSlug) {
+          referenceCount[segment.wordSlug] = referenceCount[segment.wordSlug] + 1 || 1;
+          return createNewNode(segment.text, segment.wordSlug, transformTo);
+        }
+        return { type: 'text', value: segment.text } as Text;
+      }));
+      parent.children.splice(index, 1, ...newChildren);
+      return newChildren.length + index;
+    };
+
     visit(tree, (node, index, parent) => {
-      index = index as number;
       const excludingNodes = [
         'code',
         'inlineCode',
@@ -35,16 +47,16 @@ const remarkInteractiveWords = (options: InteractiveWordsOptions) => {
         'html'
       ]
       for (const excludingNode of excludingNodes) {
-        if (node.type == excludingNode) {
+        if (node.type === excludingNode) {
           return SKIP;
         }
       }
-      if (node.type === 'text' && index !== null) {
-        return visitor(node as Text, index, parent);
+      if (node.type === 'text' && index != null && parent != null) {
+        return visitor(node as Text, index, parent as Parent);
       }
     });
     for (const [key, value] of Object.entries(referenceCount)) {
-      if (transformTo == 'linkReference' && value > 0) {
+      if (transformTo === 'linkReference' && value > 0) {
         (tree as Root).children.push({
           type: 'definition',
           identifier: key,
@@ -55,19 +67,6 @@ const remarkInteractiveWords = (options: InteractiveWordsOptions) => {
       }
     }
     return tree;
-  };
-
-  const visitor = (node: Text, index: number, parent: Parent) => {
-    const segments = helperFunction({ input: node.value, exceptions: exceptionsList });
-    const newChildren = (segments.map((segment) => {
-      if (segment.transform && segment.wordSlug) {
-        referenceCount[segment.wordSlug] = referenceCount[segment.wordSlug] + 1 || 1;
-        return createNewNode(segment.text, segment.wordSlug, transformTo);
-      }
-      return { type: 'text', value: segment.text } as Text;
-    }));
-    parent.children.splice(index, 1, ...newChildren);
-    return newChildren.length + index;
   };
 
   return transform;
